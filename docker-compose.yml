@@ -1,0 +1,19 @@
+services:
+  traefik:
+    image: traefik:v3.1
+    command: --configFile=/etc/traefik/traefik.yml
+    ports:
+      - "80:80"  # Expose HTTP port
+      - "443:443"  # Expose HTTPS port
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"  # Allow Traefik to access Docker socket
+      - "./traefik.yml:/etc/traefik/traefik.yml"
+      - "./acme.json:/acme.json"
+    networks:
+      - main-net  # Use main-net for the network
+
+networks:
+  main-net:
+    external: true  # Use the existing external network
+
